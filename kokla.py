@@ -6,24 +6,24 @@ import psutil
 import time
 
 while True:
-    a = psutil.get_process_list()
+    before_list = list(psutil.process_iter())
     time.sleep(0.05)
-    b = psutil.get_process_list()
+    after_list = list(psutil.process_iter())
     now = time.localtime(time.time())
-    t = "%s-%s-%s [%s:%s:%s]"%(now.tm_mday,now.tm_mon,now.tm_year,now.      tm_hour,now.tm_min,now.tm_sec)
-    for i in b:
-        if i in a:
+    now_str = time.strftime("%Y-%m-%d [%H:%M:%S]", now)
+    for a_proc in after_list:
+        if a_proc in before_list:
             pass
         else:
             try:
-                print "[+]",t,i.name,i.pid
+                print "[+]", now_str, a_proc.name, a_proc.pid
             except:
-                print "interesting",i.pid
-    for i in a:
-        if i in b:
+                print "interesting", now_str, a_proc.pid
+    for a_proc in before_list:
+        if a_proc in after_list:
             pass
         else:
             try:
-                print "[-]",t,i.name,i.pid
+                print "[-]", now_str, a_proc.name, a_proc.pid
             except:
-                print "terminated",i.pid
+                print "terminated", now_str, a_proc.pid

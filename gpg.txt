@@ -1,0 +1,9 @@
+#backup
+gpg -a --export mail > public-gpg.key
+gpg -a --export-secret-keys mail > secret-gpg.key
+gpg --export-ownertrust > ownertrust-gpg.txt
+
+#res.
+gpg --import secret-gpg.key
+gpg --import-ownertrust ownertrust-gpg.txt
+
